@@ -4,14 +4,16 @@ const {
     getOneStudent,
     postOneStudent,
     deleteOneStudent,
-    putOneStudent
+    putOneStudent,
+    getLoguinStudent
 
 } =require( '../controllers/estudiantes.controllers');
 
 const router =Router();
 
+router.get('/loguin', getLoguinStudent)
 router.get('/registro/estudiantes', getAllStudents);
-router.get('/registro/estudiantes/:id',getOneStudent);
+router.get('/registro/estudiantes/:id',getOneStudent); 
 router.post('/registro/estudiantes',postOneStudent);
 router.delete('/registro/estudiantes/:id',deleteOneStudent);
 router.put('/registro/estudiantes/:id',putOneStudent);

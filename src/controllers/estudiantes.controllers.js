@@ -1,4 +1,4 @@
-const pool = require('../db')
+const pool = require('../db') 
 //CONSULTAR TODOS LOS ESTUDIANTES
 const getAllStudents =async(req,res,next)=>{
    try {
@@ -14,13 +14,12 @@ const getOneStudent= async(req,res,next)=>{
    try {
       const {id} = req.params
       const result =await pool.query('SELECT * FROM public."Estudiante" WHERE id_estudiante= $1',[id])
-      console.log(result.rows)
       if(result.rows.length===0) return res.status(404).json({
          message:'alumno no encontrado'
       })
-      res.send('buscando una sola tarea')
+      res.json(result.rows)
       } catch (error) {
-         next(error)
+         next(error) 
       }
 }
 //CREAR UN ESTUDIANTE
@@ -51,7 +50,7 @@ const postOneStudent = async(req,res,next)=>{
 const deleteOneStudent = async(req,res,next)=>{
    try {
       const {id}=req.params
-      const result = await pool.query('DELETE FROM public."Estudiante" WHERE id_estudiante = $1',[id])
+      const result = await pool.query('DELETE  FROM public."Estudiante" WHERE id_estudiante = $1',[id])
       
       if (result.rowCount===0)return res.status(404).json({
          message:'No se ha encontrado el alumno'
@@ -73,22 +72,38 @@ const putOneStudent= async (req,res,next)=>{
    correo_estudiante,
    id
    ])
+
 if(result.rows.length===0)return res.status(404).json({
    message:'el estudiante no existe'
 })
+ 
 
 res.json(result.rows)
  } catch (error) {
    next(error)
  }
-
-
-
 }
+const getLoguinStudent= async (req,res,next)=>{
+   try {
+      const{correo_estudiante}=req.params
+      const result =await pool.query('SELECT * FROM public."Estudiante" WHERE correo_estudiante= $1',[correo_estudiante])
+      if(result.rows.length===0) return res.status(404).json({
+         message:'alumno no encontrado'
+      })
+      res.send('logueando un estudiante')
+
+   } catch (error) {
+      next(error)
+   }
+  
+}
+  
+
  module.exports={
     getAllStudents,
     getOneStudent,
     postOneStudent,
     deleteOneStudent, 
-    putOneStudent
+    putOneStudent,
+    getLoguinStudent
  }
