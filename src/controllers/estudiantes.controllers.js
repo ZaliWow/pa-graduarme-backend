@@ -17,7 +17,7 @@ const getOneStudent= async(req,res,next)=>{
       if(result.rows.length===0) return res.status(404).json({
          message:'alumno no encontrado'
       })
-      res.json(result.rows)
+      res.json(result.rows) 
       } catch (error) {
          next(error) 
       }
@@ -40,7 +40,7 @@ const postOneStudent = async(req,res,next)=>{
          apellido_estudiante,
          correo_estudiante,
          contra_estudiante
-      ]);
+      ]);  
      res.json(result.rows[0]);
    } catch (error) {
       next(error)

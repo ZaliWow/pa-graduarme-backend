@@ -58,7 +58,7 @@ const putOneCurso=async(req,res,next)=>{
             id
         ])
         if(result.rows.length===0)return res.status(404).json({
-            message:'el estudiante no existe'
+            message:'el curso no existe'
          })
           
          
