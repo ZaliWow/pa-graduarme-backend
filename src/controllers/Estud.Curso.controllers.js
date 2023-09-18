@@ -56,13 +56,13 @@ const postOneCursoEstudiante=async(req,res,next)=>{
 
     try {
         const {
-            id_relacion_g_e_p,
+           
             id_estudiante,
             id_curso
         } = req.body
-        const result = await pool.query('INSERT INTO public."Grado_estudiante"(id_relacion_g_e_p, id_estudiante, id_curso) VALUES ($1,$2,$3);',
+        const result = await pool.query('INSERT INTO public."Grado_estudiante"( id_estudiante, id_curso) VALUES ($1,$2);',
         [
-            id_relacion_g_e_p,
+            
             id_estudiante,
             id_curso
         ])
@@ -87,10 +87,28 @@ const deleteCursoEstudiante=async(req,res,next)=>{
     }
     
 }
+const getEstudiantesOneCurso=async(req,res,next)=>{
+
+    try {
+        const {id} = req.params
+        const result = await pool.query('SELECT * FROM public."Grado_estudiante" WHERE id_curso = $1',[id])
+        if(result.rows.length===0)return res.status(404).json({
+            message:'el estudiante no existe o no cuenta con un grado asignado'
+         })
+          
+         
+         res.json(result.rows)
+
+    } catch (error) {
+        next(error)
+    }
+   
+}
 
 
 module.exports={getAllCursoEstudiante,
     getOneCursoEstudiante,
     putOneCursoEstudiante,
     postOneCursoEstudiante,
-    deleteCursoEstudiante}
+    deleteCursoEstudiante,
+    getEstudiantesOneCurso}

@@ -97,13 +97,45 @@ const getLoguinStudent= async (req,res,next)=>{
    }
   
 }
+// PARA OBTENER TODOS LOS ESTUDIANTES ORDENADOS DE PORFA DESCENDENTE EN SU PUNTAJE
+const getRankStudent= async (req,res,next)=>{
+   try {
+      const result = await pool.query('SELECT * FROM public."Estudiante" ORDER BY puntaje DESC')
+      res.json(result.rows) 
+   } catch (error) {
+      next(error)
+   }
+}
+//PARA ACTUALIZAR UN ESTUDIANTE EN SU PUNTAJE
+const putPuntajeEstudiante= async (req,res,next)=>{
+   try {
+      const {id}=req.params
+      const{puntaje}=req.body
+      const result = await pool.query(
+         'UPDATE public."Estudiante" SET puntaje=$1 WHERE id_estudiante =$2 RETURNING *' ,
+      [puntaje,
+         id
+      ])
+   
+   if(result.rows.length===0)return res.status(404).json({
+      message:'el estudiante no existe'
+   })
+    
+   
+   res.json(result.rows)
+    } catch (error) {
+      next(error)
+    }
   
 
+}
  module.exports={
     getAllStudents,
     getOneStudent,
     postOneStudent,
     deleteOneStudent, 
     putOneStudent,
-    getLoguinStudent
+    getLoguinStudent,
+    getRankStudent,
+    putPuntajeEstudiante
  }

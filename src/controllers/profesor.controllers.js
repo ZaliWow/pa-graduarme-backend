@@ -87,11 +87,26 @@ const putOneProfesor =async(req,res,next)=>{
         next(error)
         
     }
+    
+}
+const getOneCorreoProfesor =async(req,res,next)=>{
+    try {
+        const {id} = req.params
+        const result = await pool.query('SELECT * FROM public."profesor" WHERE correo_profesor = $1',[id])
+        
+        if(result.rows.length===0) return res.status(404).json({
+            message:'profesor no encontrado'
+         })
+         res.json(result.rows)
+    } catch (error) {
+        next(error)
+    }
 }
 module.exports={
     getAllProfesor,
     getOneProfesor,
     postOneProfesor,
     deleteOneProfesor,
-    putOneProfesor
+    putOneProfesor,
+    getOneCorreoProfesor
 }

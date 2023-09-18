@@ -2,8 +2,8 @@ const pool = require('../db')
 
 const getAllFalsoVerdadero =async(req,res,next)=>{
     try {
-        const result = pool.query('SELECT * FROM public."pregunta_falso_verdadero"')
-        res.json(result)
+        const result = await pool.query('SELECT * FROM public."pregunta_falso_verdadero"')
+        res.json(result.rows)
     } catch (error) {
         next(error)
     }
@@ -32,7 +32,8 @@ const postFalsoVerdadero =async(req,res,next)=>{
         const result = await pool.query('INSERT INTO public."pregunta_falso_verdadero"(id_pregunta_falso_verdadero, respuesta_correcta) VALUES ($1,$2);',
         [
             id_pregunta_falso_verdadero,
-            respuesta_correcta  
+            respuesta_correcta
+            
         ])
         res.json(result.rows[0]);
     } catch (error) {
@@ -66,7 +67,7 @@ const putFalsoVerdadero =async(req,res,next)=>{
 
 const deleteFalsoVerdadero =async(req,res,next)=>{
     try {
-        const {id}= req.params
+    const {id}= req.params
     const result =  await pool.query('DELETE FROM public."pregunta_falso_verdadero" WHERE id_pregunta_falso_verdadero = $1',[id])
 
     if(result.rows.length===0)return res.status(404).json({

@@ -9,6 +9,11 @@ const registroCursoEstudiante= require('./routes/Estud.Curso.router')
 const registroPreguntas = require('./routes/preguntas.router')
 const registroFalsoVerdadero = require('./routes/falso.verdadero.router')
 const registroAbierta= require('./routes/abierta.router')
+const registroMultiple= require('./routes/multiple.router')
+const registroDatosExamen = require('./routes/datos.examen.router')
+const registroExamenPreguntas = require('./routes/examen.preguntas.router')
+const registroInsignias = require('./routes/insignias.router')
+const registroInsigniaEstudiante = require('./routes/Insignia.Estudiante.router')
 //crear el servidor de express
 const app= express();
 //para conectar el backend con el frontend
@@ -35,6 +40,16 @@ app.use(registroPreguntas)
 app.use(registroFalsoVerdadero)
 // para usar rutas de abierta.controllers
 app.use(registroAbierta)
+//para usar rutas de multiple.controllers
+app.use(registroMultiple)
+//para usar las rutas de datos.examen.controllers
+app.use(registroDatosExamen)
+//para usar las rutas de preguntas.examen.controllers
+app.use(registroExamenPreguntas)
+//para usar las rutas de insignias.controllers
+app.use(registroInsignias)
+// para usar las rutas de insignia.estudiante.controllers
+app.use(registroInsigniaEstudiante)
 //para gestionar errores
 app.use((err,req,res,next)=>{
     return res.json({

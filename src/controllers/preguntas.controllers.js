@@ -91,14 +91,56 @@ const deleteOnePreguntas=async(req,res,next)=>{
         next(error)
     }
 }
+// traer pregunta y su respuesta en pregunta abierta
 
+const getPreguntasExamen=async(req,res,next)=>{
+try {
+    const {dif} = req.params
+    const result = await pool.query('(SELECT p.id_pregunta FROM public."preguntas" p  INNER JOIN public."pregunta_abierta" pa ON p.id_pregunta = pa.id_abierta WHERE p.dificultad_pregunta = $1 ORDER BY RANDOM() LIMIT 1) UNION ALL (SELECT p.id_pregunta FROM public."preguntas" p INNER JOIN public."pregunta_multiple" pm ON p.id_pregunta = pm.id_multiple WHERE p.dificultad_pregunta = $1 ORDER BY RANDOM() LIMIT 2) UNION ALL (SELECT p.id_pregunta  FROM public."preguntas" p INNER JOIN public."pregunta_falso_verdadero" pfv ON p.id_pregunta = pfv.id_pregunta_falso_verdadero WHERE p.dificultad_pregunta = $1 ORDER BY RANDOM() LIMIT 2)' ,[dif])
+    res.json(result.rows)
+} catch (error) {
+    next(error)
+} 
+}
+const getTwoFV=async(req,res,next)=>{
 
+    try {
+        const {dif} = req.params
+        const result = await pool.query('SELECT *  FROM public."preguntas" p INNER JOIN public."pregunta_falso_verdadero" pfv ON p.id_pregunta = pfv.id_pregunta_falso_verdadero WHERE p.dificultad_pregunta = $1 ORDER BY RANDOM() LIMIT 2',[dif])
+        res.json(result.rows)
+    } catch (error) {
+        next(error)
+    }
+}
+const getTwoMultiple=async(req,res,next)=>{
+    try {
+        const {dif} = req.params
+        const result = await pool.query('SELECT * FROM public."preguntas" p INNER JOIN public."pregunta_multiple" pm ON p.id_pregunta = pm.id_multiple WHERE p.dificultad_pregunta = $1 ORDER BY RANDOM() LIMIT 2',[dif])
+        res.json(result.rows)
+    } catch (error) {
+        next(error)
+    }
+}
+const getOnesAbierta =async(req,res,next)=>{
+    try {
+        const {dif} = req.params
+        const result = await pool.query('SELECT * FROM public."preguntas" p  INNER JOIN public."pregunta_abierta" pa ON p.id_pregunta = pa.id_abierta WHERE p.dificultad_pregunta = $1 ORDER BY RANDOM() LIMIT 1',[dif])    
+        res.json(result.rows)
+    } catch (error) {
+        next(error)
+    }    
+    
 
+}
 
 module.exports={
     getAllPreguntas,
     getOnePreguntas,
     postOnePreguntas,
     putOnePreguntas,
-    deleteOnePreguntas
+    deleteOnePreguntas,
+    getPreguntasExamen,
+    getTwoFV,
+    getTwoMultiple,
+    getOnesAbierta
 }

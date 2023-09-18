@@ -5,7 +5,9 @@ const {
     postOneStudent,
     deleteOneStudent,
     putOneStudent,
-    getLoguinStudent
+    getLoguinStudent,
+    getRankStudent,
+    putPuntajeEstudiante
 
 } =require( '../controllers/estudiantes.controllers');
 
@@ -17,6 +19,8 @@ router.get('/registro/estudiantes/:id',getOneStudent);
 router.post('/registro/estudiantes',postOneStudent);
 router.delete('/registro/estudiantes/:id',deleteOneStudent);
 router.put('/registro/estudiantes/:id',putOneStudent);
+router.get('/rank/estudiantes', getRankStudent)
+router.put('/registro/estudiante/puntaje/:id', putPuntajeEstudiante)
 
 
 

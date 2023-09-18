@@ -12,7 +12,7 @@ const getAllCurso=async(req,res,next)=>{
 const getOneCurso=async(req,res,next)=>{
     try {
         const {id} = req.params
-        const result = await pool.query('SELECT * FROM public."Curso" WHERE id_curso =$1', [id])
+        const result = await pool.query('SELECT * FROM public."Curso" WHERE id_profesor =$1', [id])
         if(result.rows.length===0) return res.status(404).json({
             message:'curso no encontrado'
          })
@@ -81,10 +81,29 @@ const deleteOneCurso=async(req,res,next)=>{
     }
 }
 
+// EDITAR UN CURSO CON UN NUEVO PROFESOR 
+const putOneCursoOneDocente=async(req,res,next)=>{
+    try {
+        const {id} = req.params
+        const {id_profesor}= req.body
+        const result = await pool.query('UPDATE public."Curso" SET id_profesor = $1 WHERE id_curso =$2 RETURNING *',[id_profesor, id])
+        if(result.rows.length===0)return res.status(404).json({
+            message:'el curso no existe'
+         })
+          
+         
+         res.json(result.rows)
+    } catch (error) {
+        next(error)
+    }
+}
+
+
 module.exports={
     getAllCurso,
     getOneCurso,
     postOneCurso,
     deleteOneCurso,
-    putOneCurso
+    putOneCurso,
+    putOneCursoOneDocente
 }
