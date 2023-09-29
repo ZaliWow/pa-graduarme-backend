@@ -1,12 +1,8 @@
-const {Pool} = require('pg')
+const {Pool} = require('pg') 
 
+const connectionString = ('postgres://eldanlyv:DPj1GI5m55DAP3BdDI7AQEXmS8SoRpVT@berry.db.elephantsql.com/eldanlyv')
 const pool = new Pool({
-    user:'postgres',
-    password:'6969',
-    hots:'5432',
-    port:5432,
-    database:'Preguntas',
-
+    connectionString : connectionString,
 
 });
 module.exports = pool;

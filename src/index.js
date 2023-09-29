@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan= require('morgan')
 const cors =require('cors');
+const port = process.env.PORT || 4000;
 const registroEstudiantes = require('./routes/estudiantes.router')
 const registroAdmin = require('./routes/Admin.router')
 const registroProfesor = require('./routes/profesor.router')
@@ -57,5 +58,5 @@ app.use((err,req,res,next)=>{
     })
 })
 //puerto del servidor 
-app.listen(4000)
+app.listen(port)
 console.log('server on port 4000')
