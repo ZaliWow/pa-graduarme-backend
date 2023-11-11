@@ -15,6 +15,7 @@ const registroDatosExamen = require('./routes/datos.examen.router')
 const registroExamenPreguntas = require('./routes/examen.preguntas.router')
 const registroInsignias = require('./routes/insignias.router')
 const registroInsigniaEstudiante = require('./routes/Insignia.Estudiante.router')
+const updatePreguntas= require('./routes/update.router.preguntas')
 //crear el servidor de express
 const app= express();
 //para conectar el backend con el frontend
@@ -51,6 +52,8 @@ app.use(registroExamenPreguntas)
 app.use(registroInsignias)
 // para usar las rutas de insignia.estudiante.controllers
 app.use(registroInsigniaEstudiante)
+// para recibir todas las preguntas y editarlas
+app.use(updatePreguntas)
 //para gestionar errores
 app.use((err,req,res,next)=>{
     return res.json({
