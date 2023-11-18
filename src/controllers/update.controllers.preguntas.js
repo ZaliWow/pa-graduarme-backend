@@ -34,7 +34,7 @@ const updateFV =async(req,res,next)=>{
     try {
         const {id}=req.params
         const {respuesta_correcta}= req.body
-        const result = await pool.query('UPDATE  public.pregunta_falso_verdadero SET respuesta_correcta=$1 WHERE id_pregunta_falso_verdadero=$2 ',[respuesta_correcta, id])
+        const result = await pool.query('UPDATE  public.pregunta_falso_verdadero SET respuesta_correcta=$1 WHERE id_pregunta_falso_verdadero=$2 RETURNING *',[respuesta_correcta, id])
         if(result.rows.length===0)return res.status(404).json({
             message:'la pregunta no existe'
          })
@@ -53,7 +53,7 @@ try {
         opcion_d,
         respuesta_correcta
     }=req.body
-    const result = await pool.query('UPDATE public."pregunta_multiple" SET opcion_a=$1, opcion_b=$2, opcion_c=$3, opcion_d=$4, respuesta_correcta=$5 WHERE id_multiple=$6',
+    const result = await pool.query('UPDATE public."pregunta_multiple" SET opcion_a=$1, opcion_b=$2, opcion_c=$3, opcion_d=$4, respuesta_correcta=$5 WHERE id_multiple=$6 RETURNING *',
     [
         opcion_a,
         opcion_b,
@@ -94,7 +94,7 @@ const updateAbierta =async(req,res,next)=>{
     try {
         const {id}=req.params
         const {respuesta_correcta}= req.body
-        const result = await pool.query('UPDATE  public."pregunta_abierta" SET respuesta_correcta=$1 WHERE id_abierta=$2 ',[respuesta_correcta, id])
+        const result = await pool.query('UPDATE  public."pregunta_abierta" SET respuesta_correcta=$1 WHERE id_abierta=$2 RETURNING *',[respuesta_correcta, id])
         if(result.rows.length===0)return res.status(404).json({
             message:'la pregunta no existe'
          })
